@@ -8,7 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;600;700&display=swap">
 <style>
-/* Same layout as the Igiliz quiz: one centered card column, photo on top of each question, progress bar, result card.
+/* Landscape layout for a cinema screen (16:9): fills the viewport, no scrolling.
+   Each screen is a split: photo on one half, text on the other. All sizes scale with the screen (vh/vw).
    Palette: Marrakech night + Koutoubia sandstone gold. */
 :root{
   --night:#0f0c0a; --panel:#1b1611; --line:#3a2e22;
@@ -16,97 +17,108 @@
   --good:#7fbf6a; --bad:#e0644e;
   --display:'Lalezar','Cairo',system-ui,sans-serif;
   --body:'Cairo',system-ui,'Segoe UI',Tahoma,sans-serif;
+  --u:min(1vh,0.5625vw); /* 1 unit = 1% of a 16:9 frame height */
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html,body{margin:0}
-body{background:var(--night);color:var(--sand);font-family:var(--body);font-size:1.05rem;line-height:1.6;
-  padding-inline:16px;padding-block:28px 48px;min-height:100%;
-  background-image:radial-gradient(120% 60% at 50% -10%,rgba(217,164,65,.16),transparent 60%);}
-.wrap{max-width:620px;margin-inline:auto;display:flex;flex-direction:column;gap:22px}
-header{display:flex;flex-direction:column;gap:4px}
-.series{color:var(--dust);font-size:.95rem}
-h1{font-family:var(--display);font-weight:400;font-size:clamp(2.1rem,8vw,3.1rem);line-height:1.15;margin:0;color:var(--ember);text-wrap:balance}
-.lead{margin:0;color:var(--dust)}
-.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+html,body{margin:0;height:100%}
+body{background:var(--night);color:var(--sand);font-family:var(--body);font-size:calc(var(--u)*2.4);line-height:1.5;overflow:hidden;
+  background-image:radial-gradient(90% 70% at 50% -20%,rgba(217,164,65,.16),transparent 60%);}
+.screen{height:100vh;width:100vw;display:grid;grid-template-rows:auto 1fr auto;gap:calc(var(--u)*2.2);
+  padding:calc(var(--u)*3) calc(var(--u)*5)}
+header{display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u)*4)}
+.brand{display:flex;flex-direction:column}
+.series{color:var(--dust);font-size:calc(var(--u)*2)}
+h1{font-family:var(--display);font-weight:400;font-size:calc(var(--u)*5);line-height:1.1;margin:0;color:var(--ember)}
+.progress{flex:0 0 38%;display:flex;flex-direction:column;gap:calc(var(--u)*1)}
+.meta{display:flex;justify-content:space-between;color:var(--dust);font-size:calc(var(--u)*2.2);font-variant-numeric:tabular-nums}
+.bar{height:calc(var(--u)*.8);background:var(--line);border-radius:999px;overflow:hidden}
 .bar span{display:block;height:100%;width:0;background:var(--ember);transition:width .35s}
-.meta{display:flex;justify-content:space-between;color:var(--dust);font-size:.9rem;font-variant-numeric:tabular-nums}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px}
-.photo{margin:-22px -22px 0;aspect-ratio:4/3;overflow:hidden;border-radius:14px 14px 0 0;position:relative;
-  background:repeating-conic-gradient(from 45deg,rgba(217,164,65,.10) 0 25%,transparent 0 50%) 0 0/36px 36px,linear-gradient(160deg,#2a2016,#16110d)}
-.photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .35s}
+.stage{min-height:0;display:flex}
+.card{flex:1;min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:calc(var(--u)*2.2);overflow:hidden;
+  display:grid;grid-template-columns:1.1fr 1fr}
+.photo{margin:0;position:relative;min-height:0;
+  background:repeating-conic-gradient(from 45deg,rgba(217,164,65,.10) 0 25%,transparent 0 50%) 0 0/calc(var(--u)*5) calc(var(--u)*5),linear-gradient(160deg,#2a2016,#16110d)}
+.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .4s}
 .photo img.on{opacity:1}
-.cat{position:absolute;inset-block-start:12px;inset-inline-start:12px;background:rgba(15,12,10,.78);color:var(--sand);
-  font-size:.8rem;font-weight:700;padding:3px 12px;border-radius:999px;backdrop-filter:blur(4px)}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.q{font-family:var(--display);font-weight:400;font-size:clamp(1.35rem,5vw,1.75rem);line-height:1.4;margin:0;text-wrap:balance}
-.choices{display:grid;gap:10px}
-.choice{font:inherit;font-weight:600;text-align:right;color:var(--sand);background:transparent;border:1.5px solid var(--line);
-  border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .15s,background .15s}
-.choice:hover:not(:disabled){border-color:var(--ember)}
-.choice:focus-visible,.btn:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
-.choice:disabled{cursor:default}
-.choice.right{border-color:var(--good);background:rgba(127,191,106,.14)}
-.choice.wrong{border-color:var(--bad);background:rgba(224,100,78,.14)}
-.diff{font-size:.8rem;font-weight:700;padding:2px 12px;border-radius:999px;letter-spacing:.02em}
+.cat{position:absolute;inset-block-start:calc(var(--u)*2);inset-inline-start:calc(var(--u)*2);background:rgba(15,12,10,.78);color:var(--sand);
+  font-size:calc(var(--u)*2.1);font-weight:700;padding:calc(var(--u)*.5) calc(var(--u)*2);border-radius:999px;backdrop-filter:blur(4px)}
+.side{display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*2.2);padding:calc(var(--u)*4) calc(var(--u)*4.5);min-height:0}
+.row{display:flex;gap:calc(var(--u)*1)}
+.diff{font-size:calc(var(--u)*2);font-weight:700;padding:calc(var(--u)*.3) calc(var(--u)*2);border-radius:999px}
 .diff.d0{background:rgba(127,191,106,.16);color:var(--good)}
 .diff.d1{background:rgba(217,164,65,.16);color:var(--ember)}
 .diff.d2{background:rgba(224,100,78,.16);color:var(--bad)}
-.fact{margin:0;color:var(--dust);font-size:.98rem;border-top:1px solid var(--line);padding-top:12px}
-.btn{font:inherit;font-weight:700;background:var(--ember);color:var(--night);border:0;border-radius:999px;padding:12px 26px;cursor:pointer;align-self:flex-start;text-decoration:none;display:inline-block}
-.btn.ghost{background:transparent;color:var(--sand);border:1.5px solid var(--line)}
-.result{text-align:center;align-items:center}
-.intro .msg{color:var(--sand)}
-.score{font-family:var(--display);font-size:clamp(4rem,18vw,6rem);line-height:1;color:var(--ember);font-variant-numeric:tabular-nums}
-.level{display:inline-block;padding:4px 14px;border-radius:999px;font-weight:700;font-size:.9rem}
+.q{font-family:var(--display);font-weight:400;font-size:calc(var(--u)*4.6);line-height:1.3;margin:0;text-wrap:balance}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6)}
+.choice{font:inherit;font-size:calc(var(--u)*2.7);font-weight:700;text-align:right;color:var(--sand);background:transparent;
+  border:calc(var(--u)*.25) solid var(--line);border-radius:calc(var(--u)*1.4);padding:calc(var(--u)*1.8) calc(var(--u)*2.4);cursor:pointer;transition:border-color .15s,background .15s}
+.choice:hover:not(:disabled){border-color:var(--ember)}
+.choice:focus-visible,.btn:focus-visible{outline:calc(var(--u)*.3) solid var(--ember);outline-offset:calc(var(--u)*.4)}
+.choice:disabled{cursor:default}
+.choice.right{border-color:var(--good);background:rgba(127,191,106,.16)}
+.choice.wrong{border-color:var(--bad);background:rgba(224,100,78,.16)}
+.fact{margin:0;color:var(--dust);font-size:calc(var(--u)*2.4);border-top:1px solid var(--line);padding-top:calc(var(--u)*1.6)}
+.btn{font:inherit;font-size:calc(var(--u)*2.8);font-weight:700;background:var(--ember);color:var(--night);border:0;border-radius:999px;
+  padding:calc(var(--u)*1.5) calc(var(--u)*4.5);cursor:pointer;align-self:flex-start}
+.msg{font-family:var(--display);font-size:calc(var(--u)*5.2);line-height:1.3;margin:0;text-wrap:balance}
+.lead{margin:0;color:var(--dust);font-size:calc(var(--u)*2.8)}
+.score{font-family:var(--display);font-size:calc(var(--u)*16);line-height:1;color:var(--ember);font-variant-numeric:tabular-nums}
+.level{align-self:flex-start;padding:calc(var(--u)*.6) calc(var(--u)*2.4);border-radius:999px;font-weight:700;font-size:calc(var(--u)*2.6)}
 .level.low{background:rgba(224,100,78,.18);color:var(--bad)}
 .level.mid{background:rgba(217,164,65,.18);color:var(--ember)}
 .level.high{background:rgba(127,191,106,.18);color:var(--good)}
-.msg{font-family:var(--display);font-size:clamp(1.5rem,6vw,2rem);line-height:1.35;margin:0;text-wrap:balance}
-.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-footer{color:var(--dust);font-size:.85rem;text-align:center}
+footer{color:var(--dust);font-size:calc(var(--u)*1.9);text-align:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
-<div class="wrap" dir="rtl" lang="ar">
+<div class="screen" dir="rtl" lang="ar">
   <header>
-    <span class="series">تراث أمتي · الدولة الموحدية</span>
-    <h1>آثار الدولة الموحدية في التراث المغربي</h1>
-    <p class="lead">15 سؤال بالصور: الدين، المعمار والماكلة. من السهل للصعيب.</p>
+    <div class="brand">
+      <span class="series">تراث أمتي · 15 سؤال بالصور: الدين، المعمار والماكلة</span>
+      <h1>آثار الدولة الموحدية في التراث المغربي</h1>
+    </div>
+    <div class="progress" id="progress" hidden>
+      <div class="meta"><span id="count">السؤال 1 من 15</span><span id="pts">0 من 15</span></div>
+      <div class="bar"><span id="prog"></span></div>
+    </div>
   </header>
 
-  <section class="card intro" id="intro">
-    <figure class="photo"><img class="on" src="images/ghalib.jpg" alt="زخرفة مغربية أندلسية"></figure>
-    <p class="msg">واش فراسك بلّي هادشي كامل اللي غادي تشوفو، الدولة الموحدية هي اللي دخلاتو لينا؟</p>
-    <p class="lead">من الحزب الراتب حتى التفاية، جرّب راسك وشوف شحال كتعرف.</p>
-    <button class="btn" id="start">بدا الاختبار</button>
-  </section>
-
-  <div id="quiz" class="wrap" style="gap:14px" hidden>
-    <div class="meta"><span id="count">السؤال 1 من 15</span><span id="pts">0 من 15</span></div>
-    <div class="bar"><span id="prog"></span></div>
-    <section class="card" aria-live="polite">
-      <figure class="photo"><img id="img" alt=""><span class="cat" id="cat"></span></figure>
-      <div class="row"><span class="diff" id="diff"></span></div>
-      <h2 class="q" id="qtext"></h2>
-      <div class="choices" id="choices"></div>
-      <p class="fact" id="fact" hidden></p>
-      <button class="btn" id="next" hidden>السؤال الجاي</button>
+  <main class="stage">
+    <section class="card" id="intro">
+      <figure class="photo"><img class="on" src="images/ghalib.jpg" alt="زخرفة مغربية أندلسية"></figure>
+      <div class="side">
+        <p class="msg">واش فراسك بلّي هادشي كامل اللي غادي تشوفو، الدولة الموحدية هي اللي دخلاتو لينا؟</p>
+        <p class="lead">من الحزب الراتب حتى التفاية، جرّب راسك وشوف شحال كتعرف.</p>
+        <button class="btn" id="start">بدا الاختبار</button>
+      </div>
     </section>
-  </div>
 
-  <section class="card result" id="result" hidden aria-live="polite">
-    <span class="series">النتيجة ديالك</span>
-    <div class="score"><span id="final">0</span>%</div>
-    <span class="level" id="level"></span>
-    <p class="msg" id="msg"></p>
-    <div class="actions">
-      <button class="btn" id="again">عاود الاختبار</button>
-    </div>
-  </section>
+    <section class="card" id="quiz" hidden aria-live="polite">
+      <figure class="photo"><img id="img" alt=""><span class="cat" id="cat"></span></figure>
+      <div class="side">
+        <div class="row"><span class="diff" id="diff"></span></div>
+        <h2 class="q" id="qtext"></h2>
+        <div class="choices" id="choices"></div>
+        <p class="fact" id="fact" hidden></p>
+        <button class="btn" id="next" hidden>السؤال الجاي</button>
+      </div>
+    </section>
+
+    <section class="card" id="result" hidden aria-live="polite">
+      <figure class="photo"><img class="on" src="images/hassan.jpg" alt="صومعة حسان بالرباط"></figure>
+      <div class="side">
+        <span class="series">النتيجة ديالك</span>
+        <div class="score"><span id="final">0</span>%</div>
+        <span class="level" id="level"></span>
+        <p class="msg" id="msg"></p>
+        <button class="btn" id="again">عاود الاختبار</button>
+      </div>
+    </section>
+  </main>
 
   <footer>من إنتاج جمعية الجوار · بدعم من Atlas Art Minerals</footer>
 </div>
@@ -162,19 +174,19 @@ function pick(k){
   $('next').textContent=i===Q.length-1?'شوف النتيجة':'السؤال الجاي';
   $('next').hidden=false;$('next').focus();
 }
-$('next').onclick=()=>{i++; if(i<Q.length){show();window.scrollTo({top:0,behavior:'smooth'})}else{finish()}};
+$('next').onclick=()=>{i++; if(i<Q.length){show()}else{finish()}};
 function finish(){
   const p=Math.round(score/Q.length*100);
   $('prog').style.width='100%';
-  $('quiz').hidden=true;$('result').hidden=false;
+  $('quiz').hidden=true;$('progress').hidden=true;$('result').hidden=false;
   $('final').textContent=p;
   const L=$('level');
   if(p<50){L.className='level low';L.textContent='الرحّالة الناشئ';$('msg').textContent='ماشي مشكل، معانا غادي تكتاشف تراث بلادك!'}
   else if(p<80){L.className='level mid';L.textContent='المستكشف';$('msg').textContent='مزيان، ولكن أجي تعلّم كثر على الموحدين!'}
   else{L.className='level high';L.textContent='حارس الذاكرة';$('msg').textContent='مزيان بزاف! نتا عارف آثار الموحدين مزيان.'}
 }
-$('start').onclick=()=>{$('intro').hidden=true;$('quiz').hidden=false;window.scrollTo({top:0,behavior:'smooth'})};
-$('again').onclick=()=>{i=0;score=0;$('result').hidden=true;$('quiz').hidden=false;show()};
+$('start').onclick=()=>{$('intro').hidden=true;$('quiz').hidden=false;$('progress').hidden=false};
+$('again').onclick=()=>{i=0;score=0;$('result').hidden=true;$('quiz').hidden=false;$('progress').hidden=false;show()};
 show();
 </script>
 </body>
