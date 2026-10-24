@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>آثار الموحدين</title>
+<title>آثار الدولة الموحدية</title>
 <meta name="description" content="اختبار: آثار الدولة الموحدية في التراث المغربي — 15 سؤال بالصور.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;600;700&display=swap">
@@ -19,6 +19,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{margin:0}
 body{background:var(--night);color:var(--sand);font-family:var(--body);font-size:1.05rem;line-height:1.6;
   padding-inline:16px;padding-block:28px 48px;min-height:100%;
@@ -56,6 +57,7 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(2.1rem,8vw,3.1rem)
 .btn{font:inherit;font-weight:700;background:var(--ember);color:var(--night);border:0;border-radius:999px;padding:12px 26px;cursor:pointer;align-self:flex-start;text-decoration:none;display:inline-block}
 .btn.ghost{background:transparent;color:var(--sand);border:1.5px solid var(--line)}
 .result{text-align:center;align-items:center}
+.intro .msg{color:var(--sand)}
 .score{font-family:var(--display);font-size:clamp(4rem,18vw,6rem);line-height:1;color:var(--ember);font-variant-numeric:tabular-nums}
 .level{display:inline-block;padding:4px 14px;border-radius:999px;font-weight:700;font-size:.9rem}
 .level.low{background:rgba(224,100,78,.18);color:var(--bad)}
@@ -72,11 +74,18 @@ footer{color:var(--dust);font-size:.85rem;text-align:center}
 <div class="wrap" dir="rtl" lang="ar">
   <header>
     <span class="series">تراث أمتي · الدولة الموحدية</span>
-    <h1>آثار الموحدين فالتراث المغربي</h1>
+    <h1>آثار الدولة الموحدية في التراث المغربي</h1>
     <p class="lead">15 سؤال بالصور: الدين، المعمار والماكلة. من السهل للصعيب.</p>
   </header>
 
-  <div id="quiz" class="wrap" style="gap:14px">
+  <section class="card intro" id="intro">
+    <figure class="photo"><img class="on" src="images/ghalib.jpg" alt="زخرفة مغربية أندلسية"></figure>
+    <p class="msg">واش فراسك بلّي هادشي كامل اللي غادي تشوفو، الدولة الموحدية هي اللي دخلاتو لينا؟</p>
+    <p class="lead">من الحزب الراتب حتى التفاية، جرّب راسك وشوف شحال كتعرف.</p>
+    <button class="btn" id="start">بدا الاختبار</button>
+  </section>
+
+  <div id="quiz" class="wrap" style="gap:14px" hidden>
     <div class="meta"><span id="count">السؤال 1 من 15</span><span id="pts">0 من 15</span></div>
     <div class="bar"><span id="prog"></span></div>
     <section class="card" aria-live="polite">
@@ -164,6 +173,7 @@ function finish(){
   else if(p<80){L.className='level mid';L.textContent='المستكشف';$('msg').textContent='مزيان، ولكن أجي تعلّم كثر على الموحدين!'}
   else{L.className='level high';L.textContent='حارس الذاكرة';$('msg').textContent='مزيان بزاف! نتا عارف آثار الموحدين مزيان.'}
 }
+$('start').onclick=()=>{$('intro').hidden=true;$('quiz').hidden=false;window.scrollTo({top:0,behavior:'smooth'})};
 $('again').onclick=()=>{i=0;score=0;$('result').hidden=true;$('quiz').hidden=false;show()};
 show();
 </script>
