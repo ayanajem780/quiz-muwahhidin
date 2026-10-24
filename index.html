@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>آثار الموحدين</title>
+<meta name="description" content="اختبار: آثار الدولة الموحدية في التراث المغربي — 15 سؤال بالصور.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Cairo:wght@400;600;700&display=swap">
+<style>
+/* Same layout as the Igiliz quiz: one centered card column, photo on top of each question, progress bar, result card.
+   Palette: Marrakech night + Koutoubia sandstone gold. */
+:root{
+  --night:#0f0c0a; --panel:#1b1611; --line:#3a2e22;
+  --sand:#f3e2c7; --dust:#b9a58b; --ember:#d9a441;
+  --good:#7fbf6a; --bad:#e0644e;
+  --display:'Lalezar','Cairo',system-ui,sans-serif;
+  --body:'Cairo',system-ui,'Segoe UI',Tahoma,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--sand);font-family:var(--body);font-size:1.05rem;line-height:1.6;
+  padding-inline:16px;padding-block:28px 48px;min-height:100%;
+  background-image:radial-gradient(120% 60% at 50% -10%,rgba(217,164,65,.16),transparent 60%);}
+.wrap{max-width:620px;margin-inline:auto;display:flex;flex-direction:column;gap:22px}
+header{display:flex;flex-direction:column;gap:4px}
+.series{color:var(--dust);font-size:.95rem}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2.1rem,8vw,3.1rem);line-height:1.15;margin:0;color:var(--ember);text-wrap:balance}
+.lead{margin:0;color:var(--dust)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--ember);transition:width .35s}
+.meta{display:flex;justify-content:space-between;color:var(--dust);font-size:.9rem;font-variant-numeric:tabular-nums}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:16px}
+.photo{margin:-22px -22px 0;aspect-ratio:4/3;overflow:hidden;border-radius:14px 14px 0 0;position:relative;
+  background:repeating-conic-gradient(from 45deg,rgba(217,164,65,.10) 0 25%,transparent 0 50%) 0 0/36px 36px,linear-gradient(160deg,#2a2016,#16110d)}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .35s}
+.photo img.on{opacity:1}
+.cat{position:absolute;inset-block-start:12px;inset-inline-start:12px;background:rgba(15,12,10,.78);color:var(--sand);
+  font-size:.8rem;font-weight:700;padding:3px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.q{font-family:var(--display);font-weight:400;font-size:clamp(1.35rem,5vw,1.75rem);line-height:1.4;margin:0;text-wrap:balance}
+.choices{display:grid;gap:10px}
+.choice{font:inherit;font-weight:600;text-align:right;color:var(--sand);background:transparent;border:1.5px solid var(--line);
+  border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .15s,background .15s}
+.choice:hover:not(:disabled){border-color:var(--ember)}
+.choice:focus-visible,.btn:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.choice:disabled{cursor:default}
+.choice.right{border-color:var(--good);background:rgba(127,191,106,.14)}
+.choice.wrong{border-color:var(--bad);background:rgba(224,100,78,.14)}
+.diff{font-size:.8rem;font-weight:700;padding:2px 12px;border-radius:999px;letter-spacing:.02em}
+.diff.d0{background:rgba(127,191,106,.16);color:var(--good)}
+.diff.d1{background:rgba(217,164,65,.16);color:var(--ember)}
+.diff.d2{background:rgba(224,100,78,.16);color:var(--bad)}
+.fact{margin:0;color:var(--dust);font-size:.98rem;border-top:1px solid var(--line);padding-top:12px}
+.btn{font:inherit;font-weight:700;background:var(--ember);color:var(--night);border:0;border-radius:999px;padding:12px 26px;cursor:pointer;align-self:flex-start;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--sand);border:1.5px solid var(--line)}
+.result{text-align:center;align-items:center}
+.score{font-family:var(--display);font-size:clamp(4rem,18vw,6rem);line-height:1;color:var(--ember);font-variant-numeric:tabular-nums}
+.level{display:inline-block;padding:4px 14px;border-radius:999px;font-weight:700;font-size:.9rem}
+.level.low{background:rgba(224,100,78,.18);color:var(--bad)}
+.level.mid{background:rgba(217,164,65,.18);color:var(--ember)}
+.level.high{background:rgba(127,191,106,.18);color:var(--good)}
+.msg{font-family:var(--display);font-size:clamp(1.5rem,6vw,2rem);line-height:1.35;margin:0;text-wrap:balance}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+footer{color:var(--dust);font-size:.85rem;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header>
+    <span class="series">تراث أمتي · الدولة الموحدية</span>
+    <h1>آثار الموحدين فالتراث المغربي</h1>
+    <p class="lead">15 سؤال بالصور: الدين، المعمار والماكلة. من السهل للصعيب.</p>
+  </header>
+
+  <div id="quiz" class="wrap" style="gap:14px">
+    <div class="meta"><span id="count">السؤال 1 من 15</span><span id="pts">0 من 15</span></div>
+    <div class="bar"><span id="prog"></span></div>
+    <section class="card" aria-live="polite">
+      <figure class="photo"><img id="img" alt=""><span class="cat" id="cat"></span></figure>
+      <div class="row"><span class="diff" id="diff"></span></div>
+      <h2 class="q" id="qtext"></h2>
+      <div class="choices" id="choices"></div>
+      <p class="fact" id="fact" hidden></p>
+      <button class="btn" id="next" hidden>السؤال الجاي</button>
+    </section>
+  </div>
+
+  <section class="card result" id="result" hidden aria-live="polite">
+    <span class="series">النتيجة ديالك</span>
+    <div class="score"><span id="final">0</span>%</div>
+    <span class="level" id="level"></span>
+    <p class="msg" id="msg"></p>
+    <div class="actions">
+      <a class="btn" href="https://youtu.be/xpfi-gz3kE8" target="_blank" rel="noopener">تفرّج فالتيزر ديال إگيليز</a>
+      <button class="btn ghost" id="again">عاود الاختبار</button>
+    </div>
+  </section>
+
+  <footer>من إنتاج جمعية الجوار · بدعم من Atlas Art Minerals</footer>
+</div>
+
+<script>
+// i = photo file in /images, k = category, d = difficulty (0 easy, 1 medium, 2 hard)
+const Q=[
+ {i:"koutoubia",k:"المعمار",d:0,q:"هاد الصومعة المشهورة ديال مراكش، شنو سميتها؟",c:["جامع الكتبية","جامع القرويين","جامع ابن يوسف","جامع الحسن الثاني"],a:0,f:"جامع الكتبية من أشهر المعالم الموحدية، وكيعكس الطابع المعماري والديني ديال الدولة."},
+ {i:"hassan",k:"المعمار",d:0,q:"هاد الصومعة اللي ما كملاتش، فين كاينة؟",c:["فمراكش","فالرباط","فإشبيلية","فتينمل"],a:1,f:"صومعة حسان بالرباط: بقايا مشروع مسجد ضخم بناه الموحدون وما كملش."},
+ {i:"sfenj",k:"الماكلة",d:0,q:"هاد الفطيرة المقلية اللي كتتاكل مع الفطور ولا مع أتاي، شنو سميتها؟",c:["المسمن","الإسفنج","البغرير","الشباكية"],a:1,f:"الإسفنج فطيرة مقلية معروفة فالمغرب، كتتاكل خصوصاً مع الفطور ولا أتاي."},
+ {i:"amir",k:"الدين",d:0,q:"شنو هو اللقب اللي استعملوه الخلفاء الموحدون، ومازال مستعمل فالمغرب حتى اليوم؟",c:["السلطان الأعظم","أمير المؤمنين","أمير المسلمين","الخليفة الراشد"],a:1,f:"«أمير المؤمنين» لقب استعملوه الخلفاء الموحدون، وما زال مستعمل فالدستور المغربي، الفصل 41 من دستور 2011."},
+ {i:"agnaou",k:"المعمار",d:0,q:"هاد الباب المزخرف بالحجر فمراكش، شنو سميتو؟",c:["باب دكالة","باب أگناو","باب الخميس","باب الجديد"],a:1,f:"باب أگناو من أشهر أبواب مراكش التاريخية، وكيتميز بالزخرفة الحجرية والتصميم الموحدي."},
+ {i:"menara",k:"المعمار",d:1,q:"هاد الصهريج الكبير والجنان اللي دايرين بيه فمراكش، شنو سميتهم؟",c:["حدائق ماجوريل","حدائق المنارة","حدائق أكدال","عرصة مولاي عبد السلام"],a:1,f:"حدائق ومنشآت المنارة مرتبطة بتاريخ الحدائق والأنظمة المائية فمراكش."},
+ {i:"rouah",k:"المعمار",d:1,q:"باب الرواح، من الأبواب الكبرى ديال التحصينات، فأي مدينة كاين؟",c:["فاس","الرباط","مراكش","مكناس"],a:1,f:"باب الرواح من الأبواب التاريخية الكبرى المرتبطة بتحصينات الرباط."},
+ {i:"tfaya",k:"الماكلة",d:1,q:"طبق كيتحضّر غالباً بالبصل والزبيب والتوابل، وكيتقدّم مع بزاف ديال الأطباق. شنو سميتو؟",c:["التفاية","المقفول","الشرمولة","المروزية"],a:0,f:"التفاية طبق مغربي معروف، كيتحضّر غالباً بالبصل والزبيب والتوابل، وكيتقدّم مع أطباق مختلفة."},
+ {i:"oudaya",k:"المعمار",d:1,q:"هاد القصبة اللي كتطل على البحر وعلى وادي أبي رقراق، شنو سميتها؟",c:["قصبة الأوداية","قصبة تادلة","قصبة بولعوان","أگادير أوفلا"],a:0,f:"قصبة الأوداية بالرباط كتضم آثار وعناصر معمارية من فترات مختلفة، من بينها الفترة الموحدية."},
+ {i:"hizb",k:"الدين",d:1,q:"فبعض المساجد المغربية كيتقرا الحزب الراتب جماعة. فوقاش؟",c:["بعد صلاة الظهر والعصر","بعد صلاة المغرب والصبح","غير نهار الجمعة","غير فرمضان"],a:1,f:"قراءة الحزب الراتب بعد صلاتي المغرب والصبح عادة باقية فبعض المساجد المغربية."},
+ {i:"agdal",k:"المعمار",d:2,q:"حدائق تاريخية فمراكش، مرتبطة بتقاليد البستنة والري الملكي. شنو سميتها؟",c:["حدائق أكدال","حدائق المنارة","جنان السبيل","حدائق الكتبية"],a:0,f:"حدائق أكدال بمراكش حدائق تاريخية مرتبطة بتقاليد البستنة والري الملكي."},
+ {i:"kasbah",k:"المعمار",d:2,q:"مسجد تاريخي فمراكش مرتبط بالقصبة الموحدية. شنو سميتو؟",c:["جامع القصبة","جامع المواسين","جامع الكتبية","جامع باب دكالة"],a:0,f:"جامع القصبة بمراكش مسجد تاريخي مرتبط بالقصبة الموحدية."},
+ {i:"ribat",k:"المعمار",d:2,q:"مدينة الرباط عندها تسمية تاريخية مرتبطة بتطورها عبر العصور. شنو هي؟",c:["رباط الفتح","رباط تازة","رباط ماسة","مدينة السلام"],a:0,f:"«رباط الفتح» تسمية مرتبطة بتاريخ مدينة الرباط وتطورها عبر العصور."},
+ {i:"mawlid",k:"الدين",d:2,q:"الاحتفال الرسمي بالمولد النبوي فالمغرب، مع أي فترة تاريخية ارتبط؟",c:["الفترة الموحدية","الفترة الإدريسية","فترة الحماية","فترة الاستقلال"],a:0,f:"ارتبط الاحتفال الرسمي بالمولد النبوي فالمغرب بفترة الدولة الموحدية."},
+ {i:"ghalib",k:"الدين",d:2,q:"عبارة «الغالب الله» المعروفة فالذاكرة الشعبية، مع شكون كترتبط فالروايات التاريخية؟",c:["يوسف بن تاشفين","يعقوب المنصور الموحدي","المولى إسماعيل","أحمد المنصور الذهبي"],a:1,f:"عبارة «الغالب الله» مرتبطة بيعقوب المنصور الموحدي فالروايات التاريخية، وبقات معروفة فالذاكرة الشعبية المغربية."}
+];
+const LV=["سهل","متوسط","صعيب"];
+let i=0,score=0;
+const $=id=>document.getElementById(id);
+const src=it=>`images/${it.i}.jpg`;
+function show(){
+  const it=Q[i];{const r=it.c[it.a];for(let k=it.c.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[it.c[k],it.c[j]]=[it.c[j],it.c[k]]}it.a=it.c.indexOf(r)}
+  $('count').textContent=`السؤال ${i+1} من ${Q.length}`;
+  $('pts').textContent=`${score} من ${Q.length}`;
+  $('diff').textContent=LV[it.d];$('diff').className='diff d'+it.d;
+  $('cat').textContent=it.k;
+  const img=$('img');img.classList.remove('on');img.style.display='';img.onload=()=>img.classList.add('on');img.onerror=()=>{img.style.display='none'};img.src=src(it);img.alt=it.q;
+  if(Q[i+1]){new Image().src=src(Q[i+1])}
+  $('prog').style.width=(i/Q.length*100)+'%';
+  $('qtext').textContent=it.q;
+  $('fact').hidden=true;$('next').hidden=true;
+  const box=$('choices');box.innerHTML='';
+  it.c.forEach((t,k)=>{
+    const b=document.createElement('button');
+    b.className='choice';b.type='button';b.textContent=t;
+    b.onclick=()=>pick(k);box.appendChild(b);
+  });
+}
+function pick(k){
+  const it=Q[i],btns=[...$('choices').children];
+  btns.forEach(b=>b.disabled=true);
+  btns[it.a].classList.add('right');
+  if(k===it.a){score++}else{btns[k].classList.add('wrong')}
+  $('pts').textContent=`${score} من ${Q.length}`;
+  $('fact').textContent=(k===it.a?'صحيح! ':'لا، ')+it.f;$('fact').hidden=false;
+  $('next').textContent=i===Q.length-1?'شوف النتيجة':'السؤال الجاي';
+  $('next').hidden=false;$('next').focus();
+}
+$('next').onclick=()=>{i++; if(i<Q.length){show();window.scrollTo({top:0,behavior:'smooth'})}else{finish()}};
+function finish(){
+  const p=Math.round(score/Q.length*100);
+  $('prog').style.width='100%';
+  $('quiz').hidden=true;$('result').hidden=false;
+  $('final').textContent=p;
+  const L=$('level');
+  if(p<50){L.className='level low';L.textContent='الرحّالة الناشئ';$('msg').textContent='ماشي مشكل، معانا غادي تكتاشف تراث بلادك!'}
+  else if(p<80){L.className='level mid';L.textContent='المستكشف';$('msg').textContent='مزيان، ولكن أجي تعلّم كثر على الموحدين!'}
+  else{L.className='level high';L.textContent='حارس الذاكرة';$('msg').textContent='مزيان بزاف! نتا عارف آثار الموحدين مزيان.'}
+}
+$('again').onclick=()=>{i=0;score=0;$('result').hidden=true;$('quiz').hidden=false;show()};
+show();
+</script>
+</body>
+</html>
